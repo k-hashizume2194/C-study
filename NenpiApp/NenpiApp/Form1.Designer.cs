@@ -61,6 +61,7 @@
             this.btnClear.TabIndex = 0;
             this.btnClear.Text = "クリア";
             this.btnClear.UseVisualStyleBackColor = false;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // label1
             // 
@@ -131,6 +132,7 @@
             this.txtCurrentMileage.Name = "txtCurrentMileage";
             this.txtCurrentMileage.Size = new System.Drawing.Size(116, 22);
             this.txtCurrentMileage.TabIndex = 8;
+            this.txtCurrentMileage.Leave += new System.EventHandler(this.txtCurrentMileage_Leave);
             // 
             // label4
             // 
@@ -168,6 +170,7 @@
             this.btnCalculation.TabIndex = 12;
             this.btnCalculation.Text = "計算";
             this.btnCalculation.UseVisualStyleBackColor = false;
+            this.btnCalculation.Click += new System.EventHandler(this.btnCalculation_Click);
             // 
             // label6
             // 
@@ -196,6 +199,7 @@
             this.btnRecord.TabIndex = 15;
             this.btnRecord.Text = "記録";
             this.btnRecord.UseVisualStyleBackColor = false;
+            this.btnRecord.Click += new System.EventHandler(this.btnRecord_Click);
             // 
             // btnEnd
             // 
@@ -206,6 +210,7 @@
             this.btnEnd.TabIndex = 16;
             this.btnEnd.Text = "終了";
             this.btnEnd.UseVisualStyleBackColor = false;
+            this.btnEnd.Click += new System.EventHandler(this.btnEnd_Click);
             // 
             // label7
             // 
