@@ -196,24 +196,16 @@ namespace NenpiApp
         /// </summary>
         private void Clear()
         {
-            // TODO：まだスタブ状態
-            // TODO：まだスタブ状態
-            //          1.フォームの内容を以下の内容で初期化する
-            //      給油日 現在日付
-            //      給油量 空白
-            //      前回給油時総走行距離 DBに記録されている最後の給油時走行距離
-            //      給油時総走行距離 空白
-            //      区間走行距離 空白
-            //      区間燃費 空白
-            //      計算ボタン クリック不可状態																																																																										
-            //・「入力値クリアメソッド」を作成
-            //              1.の初期化時指定の値をセットする
-            //              入力値クリアメソッド
-            //                              引数１：なし
-            //                              戻り値：なし																														
-            //		
+            dateTimePicker.Value = DateTime.Now;
+            boxOilingQuantity.Text = "";
+            txtCurrentMileage.Text = "";
+            //TODO：前回給油時総走行距離 DBに記録されている最後の給油時走行距離
+            txtCurrentMileage.Text = "";
+            txtThisMileage.Text = "";
+            txtFuelConsumption.Text = "";	
+            btnCalculation.Enabled = false;
 
-
+            // TODO：まだスタブ状態
             //※「前回給油時総走行距離表示」テキストボックスには、DBに記録されている最後の給油時総走行距離を取得
 
             double zenkai = GetzenkaiFromdb();
