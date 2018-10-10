@@ -98,6 +98,7 @@
             this.boxOilingQuantity.Name = "boxOilingQuantity";
             this.boxOilingQuantity.Size = new System.Drawing.Size(116, 22);
             this.boxOilingQuantity.TabIndex = 4;
+            this.boxOilingQuantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
             // 
@@ -116,6 +117,7 @@
             this.txtPastMileage.ReadOnly = true;
             this.txtPastMileage.Size = new System.Drawing.Size(116, 22);
             this.txtPastMileage.TabIndex = 6;
+            this.txtPastMileage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label3
             // 
@@ -132,6 +134,7 @@
             this.txtCurrentMileage.Name = "txtCurrentMileage";
             this.txtCurrentMileage.Size = new System.Drawing.Size(116, 22);
             this.txtCurrentMileage.TabIndex = 8;
+            this.txtCurrentMileage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtCurrentMileage.Leave += new System.EventHandler(this.txtCurrentMileage_Leave);
             // 
             // label4
@@ -160,6 +163,7 @@
             this.txtThisMileage.ReadOnly = true;
             this.txtThisMileage.Size = new System.Drawing.Size(116, 22);
             this.txtThisMileage.TabIndex = 11;
+            this.txtThisMileage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnCalculation
             // 
@@ -189,6 +193,7 @@
             this.txtFuelConsumption.ReadOnly = true;
             this.txtFuelConsumption.Size = new System.Drawing.Size(116, 22);
             this.txtFuelConsumption.TabIndex = 14;
+            this.txtFuelConsumption.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnRecord
             // 
