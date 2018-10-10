@@ -84,6 +84,7 @@ namespace NenpiApp
 
 
             ///3.計算した区間燃費を区間燃費表示テキストボックスに表示
+            ///
             ///4.「クリア」「記録」「終了」ボタン以外の入力部品を変更不可状態にする。
 
 
@@ -95,6 +96,11 @@ namespace NenpiApp
 
 
 
+        /// <summary>
+        /// 給油量未入力チェックメソッド
+        /// </summary>
+        /// <param name="oiling"></param>
+        /// <returns></returns>
         private string CheckOilingQuantity(string oiling)
         {
             ///※給油時総走行距離のチェックがOKの場合のみ計算ボタンはクリックできる
@@ -153,7 +159,8 @@ namespace NenpiApp
         /// <param name="e"></param>
         private void btnEnd_Click(object sender, EventArgs e)
         {
-        ///TODO:メインフォームを閉じる
+         ///メインフォームを閉じる
+         this.Close();
         }
 
 
@@ -250,12 +257,8 @@ namespace NenpiApp
         /// <returns></returns>
         private string CheckCurrentMileage(string kyuyuzitMileage, double zenkaiMileage)
         {
-            ///・「給油量入力チェックメソッド」を作成
-            ///→メッセージダイアログ表示処理は1か所記述するのみ
-            ///入力チェックメソッド
-            ///引数１：給油量 (string) nullが渡る場合もあり
-            ///戻り値：メッセージ (string) ※エラーが無ければ空値""
-            /// //           1.給油時総走行距離の入力チェックを行う
+
+            /// 1.給油時総走行距離の入力チェックを行う
 
             //   1 - 1.未入力チェック
             //	・未入力の場合：以下の処理を実行して処理終了
