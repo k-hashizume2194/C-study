@@ -86,10 +86,12 @@ namespace NenpiApp
             ///3.計算した区間燃費を区間燃費表示テキストボックスに表示
 
 
+
             ///4.「クリア」「記録」「終了」ボタン以外の入力部品を変更不可状態にする。
-
-
-
+            dateTimePicker.Enabled = false;
+            boxOilingQuantity.Enabled = false;
+            txtCurrentMileage.Enabled = false;
+            btnCalculation.Enabled = false;
 
 
 
@@ -233,6 +235,11 @@ namespace NenpiApp
             txtThisMileage.Text = "";
             txtFuelConsumption.Text = "";	
             btnCalculation.Enabled = false;
+            dateTimePicker.Enabled = true;
+            boxOilingQuantity.Enabled = true;
+            txtCurrentMileage.Enabled = true;
+           
+
 
             // TODO：まだスタブ状態
             //※「前回給油時総走行距離表示」テキストボックスには、DBに記録されている最後の給油時総走行距離を取得
