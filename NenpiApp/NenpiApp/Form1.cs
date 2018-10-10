@@ -84,7 +84,8 @@ namespace NenpiApp
 
 
             ///3.計算した区間燃費を区間燃費表示テキストボックスに表示
-            ///
+
+
             ///4.「クリア」「記録」「終了」ボタン以外の入力部品を変更不可状態にする。
 
 
@@ -134,11 +135,15 @@ namespace NenpiApp
             ///メッセージ：「記録処理は区間燃費の算出後に実行してください」
             ///をダイアログに表示して処理終了
             ///⇒入力チェックの結果、エラーが無ければ2へ
+            ///
+            /// 
             ///2.記録処理実行確認ダイアログ表示
             ///メッセージ：「記録処理を実行します。よろしいですか？」
             ///の確認ダイアログを表示
             ///→「はい」をクリックした場合、3へ
             ///→「いいえ」をクリックした場合処理終了
+            ///
+            /// 
             ///3.燃費データ保存
             ///・内蔵DB(SQLite)のテーブル「t_nenpi」に以下の内容のレコードを追加
             ///給油日付 「給油日入力部品」の入力値をYYYYMMDD形式に変換
@@ -182,7 +187,21 @@ namespace NenpiApp
             //⇒入力チェックの結果
             //		・エラーが無い場合：2 - 1へ
             //		・エラーがある場合：「区間距離」テキストボックスに空白を設定
+
+
+            //区間距離を算出して「区間距離」テキストボックスに設定
+            double kyuyuzidouble = double.Parse(kyuyuzitMileage);
+            double kukankyori = KukanCul(kyuyuzidouble, zenkaiMileage);
+            txtThisMileage.Text = kukankyori.ToString();
+
+
+            btnCalculation.Enabled = true;
+
+
         }
+
+ 
+
 
 
         #endregion
@@ -284,6 +303,20 @@ namespace NenpiApp
 
             //                               戻り値：メッセージ(string)
             return "";
+        }
+
+        /// <summary>
+        /// 区間距離計算メソッド
+        /// </summary>
+        /// <param name="kyuyuzitMileage"></param>
+        /// <param name="zenkaiMileage"></param>
+        /// <returns></returns>
+        private double KukanCul(double kyuyuzitMileage, double zenkaiMileage)
+        {
+            //TODO:四捨五入する
+            double aaa = kyuyuzitMileage - zenkaiMileage;
+            Console.WriteLine(aaa);
+            return Math.Round(aaa, 1, MidpointRounding.AwayFromZero);
         }
 
 
