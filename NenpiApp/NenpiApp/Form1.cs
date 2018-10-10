@@ -145,9 +145,11 @@ namespace NenpiApp
             ///給油時総走行距離	「給油時総走行距離」の値
             ///区間走行距離 「区間走行距離」の値
             ///区間燃費 「区間燃費」の値
-            ///・記録処理完了メッセージの表示														
+            ///		
+            ///・記録処理完了メッセージの表示
             ///メッセージ：「記録処理が完了しました」													
-		    ///をダイアログに表示して処理終了
+            ///をダイアログに表示して処理終了
+            MessageBox.Show("記録処理が完了しました", "");
 
 
         }
@@ -199,6 +201,7 @@ namespace NenpiApp
             dateTimePicker.Value = DateTime.Now;
             boxOilingQuantity.Text = "";
             txtCurrentMileage.Text = "";
+
             //TODO：前回給油時総走行距離 DBに記録されている最後の給油時走行距離
             txtCurrentMileage.Text = "";
             txtThisMileage.Text = "";
@@ -209,6 +212,7 @@ namespace NenpiApp
             //※「前回給油時総走行距離表示」テキストボックスには、DBに記録されている最後の給油時総走行距離を取得
 
             double zenkai = GetzenkaiFromdb();
+            txtPastMileage.Text = zenkai.ToString();
         }
 
         /// <summary>
