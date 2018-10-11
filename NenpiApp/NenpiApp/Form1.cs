@@ -66,8 +66,11 @@ namespace NenpiApp
         /// <param name="e"></param>
         private void btnCalculation_Click(object sender, EventArgs e)
         {
+            string oiling = boxOilingQuantity.Text;
+            string mileageVal = txtThisMileage.Text;
+
             ///1.給油量の入力チェックを行う
-            string oiling = "30.5";///TODO:給油量テキストボックスの値を
+           
             string message = CheckOilingQuantity(oiling);
 
 
@@ -77,16 +80,16 @@ namespace NenpiApp
 
             ///2-1.燃費計算
             ///区間燃費 ＝ 区間距離 / 給油量
-            double oilingdouble = 30.5;
-            double valThisMileage = 889.7;///TODO:区間距離を算出して区間距離テクストボックスに設定
+            double oilingdouble = double.Parse(oiling);
+            double valThisMileage = double.Parse(mileageVal);
             double nenpi = Culcnenpi(oilingdouble, valThisMileage);
 
 
 
             ///3.計算した区間燃費を区間燃費表示テキストボックスに表示
 
-            // TODO：固定値入れておく
-            txtFuelConsumption.Text = "29.5";
+            // 燃費計算結果をセット
+            txtFuelConsumption.Text = nenpi.ToString();
 
 
             ///4.「クリア」「記録」「終了」ボタン以外の入力部品を変更不可状態にする。
@@ -195,8 +198,8 @@ namespace NenpiApp
         {
                                                                        
 	　　　//入力チェックを実行																																	
-            string kyuyuzitMileage = "13400.2";
-            double zenkaiMileage = 12500.5;
+            string kyuyuzitMileage = txtCurrentMileage.Text;
+            double zenkaiMileage = double.Parse(txtPastMileage.Text);
             string messagekyuyuzi = CheckCurrentMileage(kyuyuzitMileage, zenkaiMileage);
             //⇒入力チェックの結果
             //		・エラーが無い場合：2 - 1へ
@@ -248,7 +251,7 @@ namespace NenpiApp
 
             // TODO：まだスタブ状態
             //※「前回給油時総走行距離表示」テキストボックスには、DBに記録されている最後の給油時総走行距離を取得
-
+            //前回給油時総走行距離取得メソッドを実行
             double zenkai = GetzenkaiFromdb();
             txtPastMileage.Text = zenkai.ToString();
         }
@@ -265,7 +268,7 @@ namespace NenpiApp
             //                                      戻り値：前回給油時総走行距離(double)																															
             //			・内蔵DB(SQLite)のテーブル「t_nenpi」から以下の条件でレコード抽出
             //				・条件：給油日が直近(一番最近)
-            return 12500.5;
+            return 12500.5;//TODO:スタブなので固定値
         }
 
         /// <summary>
@@ -280,7 +283,10 @@ namespace NenpiApp
             ///引数１：給油量 (double)
             ///引数２：区間距離 (doule)
             ///戻り値：区間燃費 (double) ※30.5のように小数値で返す ※小数点第一位で四捨五入する
-            return 29.5;
+
+            double aaa = valThisMileage / oilingdouble;
+            Console.WriteLine(aaa);
+            return Math.Round(aaa, 1, MidpointRounding.AwayFromZero);
         }
 
         /// <summary>
@@ -332,7 +338,7 @@ namespace NenpiApp
         /// <returns></returns>
         private double KukanCul(double kyuyuzitMileage, double zenkaiMileage)
         {
-            //TODO:四捨五入する
+            // 四捨五入する
             double aaa = kyuyuzitMileage - zenkaiMileage;
             Console.WriteLine(aaa);
             return Math.Round(aaa, 1, MidpointRounding.AwayFromZero);
