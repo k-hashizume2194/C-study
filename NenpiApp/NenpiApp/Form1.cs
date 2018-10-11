@@ -58,9 +58,18 @@ namespace NenpiApp
             string mileageVal = txtThisMileage.Text;
 
             ///1.給油量の入力チェックを行う
-           
+            // 入力チェック結果を取得
             string message = CheckOilingQuantity(oiling);
+            // ⇒入力チェックの結果、エラーがあればメッセージをダイアログに出して処理終了
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                MessageBox.Show(message);
+                return;
+            } 
 
+          
+
+       
             ///TODO:⇒入力チェックの結果、エラーが無ければ2-1へ
 
             ///2-1.燃費計算
@@ -289,12 +298,32 @@ namespace NenpiApp
             ///※空白、ゼロの場合にエラーとする
             ///メッセージ：「給油量を入力してください」
             ///をダイアログに表示して処理終了
+            if (!string.IsNullOrWhiteSpace(oiling))
+            {
+                //nullではなく、かつ空文字列でもなく、かつ空白文字列でもない
+            }
+
+            else 
+            {
+                // null、もしくは空文字列、もしくは空白文字列
+                // メッセージ：「給油量を入力してください」をダイアログに表示して処理終了
+                return "給油量を入力してください";
+            }
+
+            //数値かどうかチェック
             ///1-2.正の数値チェック
-            ///「給油量」が正の数値以外の場合
+            ///「給油量」が0以下の数値以外の場合
             ///※数値以外の文字、マイナスの数値をエラーにする
             ///メッセージ：「給油量は正の数値で入力してください」
             ///をダイアログに表示して処理終了
+            double oilingNumber;
+            bool canConvert = double.TryParse(oiling, out oilingNumber);
 
+            if (!canConvert || oilingNumber <= 0)
+            {
+                return "給油量は０より大きい数値で入力してください";
+            }
+            
             return "";
         }
 
