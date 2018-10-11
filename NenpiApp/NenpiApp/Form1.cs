@@ -33,17 +33,7 @@ namespace NenpiApp
             //   1.画面の内容を初期表示状態に戻す
             //※「入力値クリアメソッド」を実行
             Clear();
-
-
-
-
-
         }
-
-
-
-
-
 
         /// <summary>
         /// クリアボタンクリックイベント
@@ -56,8 +46,6 @@ namespace NenpiApp
             //※「入力値クリアメソッド」を実行
             Clear();
         }
-
-
 
         /// <summary>
         /// 計算ボタンイベント
@@ -73,10 +61,7 @@ namespace NenpiApp
            
             string message = CheckOilingQuantity(oiling);
 
-
-
-
-            ///⇒入力チェックの結果、エラーが無ければ2-1へ
+            ///TODO:⇒入力チェックの結果、エラーが無ければ2-1へ
 
             ///2-1.燃費計算
             ///区間燃費 ＝ 区間距離 / 給油量
@@ -84,50 +69,17 @@ namespace NenpiApp
             double valThisMileage = double.Parse(mileageVal);
             double nenpi = Culcnenpi(oilingdouble, valThisMileage);
 
-
-
             ///3.計算した区間燃費を区間燃費表示テキストボックスに表示
 
             // 燃費計算結果をセット
             txtFuelConsumption.Text = nenpi.ToString();
-
 
             ///4.「クリア」「記録」「終了」ボタン以外の入力部品を変更不可状態にする。
             dateTimePicker.Enabled = false;
             boxOilingQuantity.Enabled = false;
             txtCurrentMileage.Enabled = false;
             btnCalculation.Enabled = false;
-
-
-
         }
-
-
-
-        /// <summary>
-        /// 給油量未入力チェックメソッド
-        /// </summary>
-        /// <param name="oiling"></param>
-        /// <returns></returns>
-        private string CheckOilingQuantity(string oiling)
-        {
-            ///※給油時総走行距離のチェックがOKの場合のみ計算ボタンはクリックできる
-            ///1-1.未入力チェック
-            ///※空白、ゼロの場合にエラーとする
-            ///メッセージ：「給油量を入力してください」
-            ///をダイアログに表示して処理終了
-            ///1-2.正の数値チェック
-            ///「給油量」が正の数値以外の場合
-            ///※数値以外の文字、マイナスの数値をエラーにする
-            ///メッセージ：「給油量は正の数値で入力してください」
-            ///をダイアログに表示して処理終了
-
-
-
-
-            return"";
-        }
-
 
         /// <summary>
         /// 記録ボタンイベント
@@ -145,6 +97,7 @@ namespace NenpiApp
             if (string.IsNullOrWhiteSpace(txtFuelConsumption.Text))
             {
                 MessageBox.Show("記録処理は区間燃費の算出後に実行してください");
+                return;
             }
 
             ///2.記録処理実行確認ダイアログ表示
@@ -172,8 +125,6 @@ namespace NenpiApp
             ///メッセージ：「記録処理が完了しました」													
             ///をダイアログに表示して処理終了
             MessageBox.Show("記録処理が完了しました", "");
-
-
         }
 
         /// <summary>
@@ -187,47 +138,33 @@ namespace NenpiApp
          this.Close();
         }
 
-
-
         /// <summary>
         /// 給油時走行距離フォーカスアウトイベント
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void txtCurrentMileage_Leave(object sender, EventArgs e)
-        {
-                                                                       
+        {                                                                  
 	　　　//入力チェックを実行																																	
             string kyuyuzitMileage = txtCurrentMileage.Text;
             double zenkaiMileage = double.Parse(txtPastMileage.Text);
             string messagekyuyuzi = CheckCurrentMileage(kyuyuzitMileage, zenkaiMileage);
+                     
             //⇒入力チェックの結果
             //		・エラーが無い場合：2 - 1へ
             //		・エラーがある場合：「区間距離」テキストボックスに空白を設定
-
 
             //区間距離を算出して「区間距離」テキストボックスに設定
             double kyuyuzidouble = double.Parse(kyuyuzitMileage);
             double kukankyori = KukanCul(kyuyuzidouble, zenkaiMileage);
             txtThisMileage.Text = kukankyori.ToString();
 
-
             btnCalculation.Enabled = true;
-
-
         }
-
- 
-
-
 
         #endregion
 
         #region privateメソッド
-
-
-
-
 
         /// <summary>
         /// 入力値クリアメソッド
@@ -247,8 +184,6 @@ namespace NenpiApp
             boxOilingQuantity.Enabled = true;
             txtCurrentMileage.Enabled = true;
            
-
-
             // TODO：まだスタブ状態
             //※「前回給油時総走行距離表示」テキストボックスには、DBに記録されている最後の給油時総走行距離を取得
             //前回給油時総走行距離取得メソッドを実行
@@ -259,7 +194,7 @@ namespace NenpiApp
         /// <summary>
         /// 前回走行距離取得メソッド
         /// </summary>
-        /// <returns></returns>
+        /// <returns>DBから取得した前回走行距離</returns>
         private double GetzenkaiFromdb()
         {
             //			→「前回給油時総走行距離取得メソッド」を実行
@@ -274,9 +209,9 @@ namespace NenpiApp
         /// <summary>
         /// 燃費計算メソッド
         /// </summary>
-        /// <param name="oilingdouble"></param>
-        /// <param name="valThisMileage"></param>
-        /// <returns></returns>
+        /// <param name="oilingdouble">給油量</param>
+        /// <param name="valThisMileage">区間距離</param>
+        /// <returns>区間燃費</returns>
         private double Culcnenpi(double oilingdouble, double valThisMileage)
         {
             ///燃費計算メソッド
@@ -292,9 +227,9 @@ namespace NenpiApp
         /// <summary>
         /// 給油時走行距離入力チェックメソッド
         /// </summary>
-        /// <param name="kyuyuzitMileage"></param>
-        /// <param name="zenkaiMileage"></param>
-        /// <returns></returns>
+        /// <param name="kyuyuzitMileage">給油時総走行距離</param>
+        /// <param name="zenkaiMileage">前回給油時総走行距離</param>
+        /// <returns>なし</returns>
         private string CheckCurrentMileage(string kyuyuzitMileage, double zenkaiMileage)
         {
 
@@ -307,13 +242,11 @@ namespace NenpiApp
 
             //	・入力がある場合：1 - 2へ
 
-
             //   1 - 2.正の数値チェック
             //	「給油時総走行距離」が正の数値以外の場合
             //			※数値以外の文字、マイナスの数値をエラーにする
             //               メッセージ：「給油時走行距離は正の数値で入力してください」																																
             //							をダイアログに表示
-
 
             //   1 - 3.整合性チェック
             //	「給油時総走行距離」＜「前回給油時総走行距離」の場合
@@ -333,17 +266,37 @@ namespace NenpiApp
         /// <summary>
         /// 区間距離計算メソッド
         /// </summary>
-        /// <param name="kyuyuzitMileage"></param>
-        /// <param name="zenkaiMileage"></param>
-        /// <returns></returns>
+        /// <param name="kyuyuzitMileage">給油時総走行距離</param>
+        /// <param name="zenkaiMileage">前回給油時総走行距離</param>
+        /// <returns>区間距離</returns>
         private double KukanCul(double kyuyuzitMileage, double zenkaiMileage)
         {
             // 四捨五入する
             double aaa = kyuyuzitMileage - zenkaiMileage;
-            Console.WriteLine(aaa);
+            Console.WriteLine(aaa);//TODO:名前変更
             return Math.Round(aaa, 1, MidpointRounding.AwayFromZero);
         }
 
+        /// <summary>
+        /// 給油量未入力チェックメソッド
+        /// </summary>
+        /// <param name="oiling">給油量</param>
+        /// <returns>メッセージ</returns>
+        private string CheckOilingQuantity(string oiling)
+        {
+            ///※給油時総走行距離のチェックがOKの場合のみ計算ボタンはクリックできる
+            ///1-1.未入力チェック
+            ///※空白、ゼロの場合にエラーとする
+            ///メッセージ：「給油量を入力してください」
+            ///をダイアログに表示して処理終了
+            ///1-2.正の数値チェック
+            ///「給油量」が正の数値以外の場合
+            ///※数値以外の文字、マイナスの数値をエラーにする
+            ///メッセージ：「給油量は正の数値で入力してください」
+            ///をダイアログに表示して処理終了
+
+            return "";
+        }
 
 
         #endregion
