@@ -55,10 +55,10 @@
             // btnClear
             // 
             this.btnClear.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.btnClear.Location = new System.Drawing.Point(360, 61);
+            this.btnClear.Location = new System.Drawing.Point(405, 89);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(108, 37);
-            this.btnClear.TabIndex = 0;
+            this.btnClear.TabIndex = 5;
             this.btnClear.Text = "クリア";
             this.btnClear.UseVisualStyleBackColor = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
@@ -80,7 +80,7 @@
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dateTimePicker.Size = new System.Drawing.Size(134, 22);
-            this.dateTimePicker.TabIndex = 2;
+            this.dateTimePicker.TabIndex = 0;
             // 
             // labelMainForm
             // 
@@ -97,7 +97,7 @@
             this.boxOilingQuantity.Location = new System.Drawing.Point(207, 147);
             this.boxOilingQuantity.Name = "boxOilingQuantity";
             this.boxOilingQuantity.Size = new System.Drawing.Size(116, 22);
-            this.boxOilingQuantity.TabIndex = 4;
+            this.boxOilingQuantity.TabIndex = 1;
             this.boxOilingQuantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
@@ -117,6 +117,7 @@
             this.txtPastMileage.ReadOnly = true;
             this.txtPastMileage.Size = new System.Drawing.Size(116, 22);
             this.txtPastMileage.TabIndex = 6;
+            this.txtPastMileage.TabStop = false;
             this.txtPastMileage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label3
@@ -133,7 +134,7 @@
             this.txtCurrentMileage.Location = new System.Drawing.Point(207, 227);
             this.txtCurrentMileage.Name = "txtCurrentMileage";
             this.txtCurrentMileage.Size = new System.Drawing.Size(116, 22);
-            this.txtCurrentMileage.TabIndex = 8;
+            this.txtCurrentMileage.TabIndex = 2;
             this.txtCurrentMileage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtCurrentMileage.Leave += new System.EventHandler(this.txtCurrentMileage_Leave);
             // 
@@ -163,6 +164,7 @@
             this.txtThisMileage.ReadOnly = true;
             this.txtThisMileage.Size = new System.Drawing.Size(116, 22);
             this.txtThisMileage.TabIndex = 11;
+            this.txtThisMileage.TabStop = false;
             this.txtThisMileage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnCalculation
@@ -171,7 +173,7 @@
             this.btnCalculation.Location = new System.Drawing.Point(77, 324);
             this.btnCalculation.Name = "btnCalculation";
             this.btnCalculation.Size = new System.Drawing.Size(390, 38);
-            this.btnCalculation.TabIndex = 12;
+            this.btnCalculation.TabIndex = 3;
             this.btnCalculation.Text = "計算";
             this.btnCalculation.UseVisualStyleBackColor = false;
             this.btnCalculation.Click += new System.EventHandler(this.btnCalculation_Click);
@@ -193,6 +195,7 @@
             this.txtFuelConsumption.ReadOnly = true;
             this.txtFuelConsumption.Size = new System.Drawing.Size(116, 22);
             this.txtFuelConsumption.TabIndex = 14;
+            this.txtFuelConsumption.TabStop = false;
             this.txtFuelConsumption.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnRecord
@@ -201,7 +204,7 @@
             this.btnRecord.Location = new System.Drawing.Point(65, 433);
             this.btnRecord.Name = "btnRecord";
             this.btnRecord.Size = new System.Drawing.Size(108, 37);
-            this.btnRecord.TabIndex = 15;
+            this.btnRecord.TabIndex = 4;
             this.btnRecord.Text = "記録";
             this.btnRecord.UseVisualStyleBackColor = false;
             this.btnRecord.Click += new System.EventHandler(this.btnRecord_Click);
@@ -212,7 +215,7 @@
             this.btnEnd.Location = new System.Drawing.Point(360, 433);
             this.btnEnd.Name = "btnEnd";
             this.btnEnd.Size = new System.Drawing.Size(108, 37);
-            this.btnEnd.TabIndex = 16;
+            this.btnEnd.TabIndex = 6;
             this.btnEnd.Text = "終了";
             this.btnEnd.UseVisualStyleBackColor = false;
             this.btnEnd.Click += new System.EventHandler(this.btnEnd_Click);
