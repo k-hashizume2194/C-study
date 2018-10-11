@@ -139,7 +139,10 @@ namespace NenpiApp
             ///メッセージ：「記録処理は区間燃費の算出後に実行してください」
             ///をダイアログに表示して処理終了
             ///⇒入力チェックの結果、エラーが無ければ2へ
-
+            if (string.IsNullOrWhiteSpace(txtFuelConsumption.Text))
+            {
+                MessageBox.Show("記録処理は区間燃費の算出後に実行してください");
+            }
 
             ///2.記録処理実行確認ダイアログ表示
             ///メッセージ：「記録処理を実行します。よろしいですか？」
