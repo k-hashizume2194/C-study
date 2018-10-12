@@ -129,6 +129,7 @@ namespace NenpiApp
 
             using (var nenpiData = new SQLiteConnection("Data Source=" + db_file))
             {
+                // TODO :テーブルがなかった場合作成の処理まで
                 nenpiData.Open();
                 using (SQLiteCommand command = nenpiData.CreateCommand())
                 {
