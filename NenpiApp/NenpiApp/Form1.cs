@@ -146,15 +146,38 @@ namespace NenpiApp
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void txtCurrentMileage_Leave(object sender, EventArgs e)
-        {                                                                  
-	　　　//給油時総走行距離入力チェックを実行																																	
+        {
+            //1.給油時総走行距離の入力チェックを行う																																	
             string kyuyuzitMileage = txtCurrentMileage.Text;
             double zenkaiMileage = double.Parse(txtPastMileage.Text);
+
+            //   1 - 1.未入力チェック
+            //   ・未入力の場合：以下の処理を実行して処理終了
+            //   「区間距離」テキストボックスに空白を設定
+            //   「計算」ボタンをクリック不可状態にする
+            if (!string.IsNullOrWhiteSpace(kyuyuzitMileage))
+            {
+                //nullではなく、かつ空文字列でもなく、かつ空白文字列でもない
+            }
+            else
+            {
+                txtThisMileage.Text = "";
+                btnCalculation.Enabled = false;
+                return;
+            }
+
+            //０以上の数値、整合性チェックして、エラーだと区間距離空白と計算ボタン不可設定して
+            //メッセージ表示
             string messagekyuyuzi = CheckCurrentMileage(kyuyuzitMileage, zenkaiMileage);
-                     
-            //⇒入力チェックの結果
-            //		・エラーが無い場合：2 - 1へ
-            //		・エラーがある場合：「区間距離」テキストボックスに空白を設定
+
+            if (!string.IsNullOrWhiteSpace(messagekyuyuzi))
+            {
+                txtThisMileage.Text = "";
+                btnCalculation.Enabled = false;
+                // フォーカスイベントなのでメッセージボックスを最後に配置
+                MessageBox.Show(messagekyuyuzi);
+                return;    
+            } 
 
             //区間距離を算出して「区間距離」テキストボックスに設定
             double kyuyuzidouble = double.Parse(kyuyuzitMileage);
@@ -164,6 +187,9 @@ namespace NenpiApp
             //2 - 2.計算ボタンをクリック可能にする
             btnCalculation.Enabled = true;
         }
+
+
+
 
         #endregion
 
@@ -200,12 +226,12 @@ namespace NenpiApp
         /// <returns>DBから取得した前回走行距離</returns>
         private double GetzenkaiFromdb()
         {
-            //			→「前回給油時総走行距離取得メソッド」を実行
-            //                      前回給油時総走行距離取得メソッド
-            //                                      引数１：なし
-            //                                      戻り値：前回給油時総走行距離(double)																															
-            //			・内蔵DB(SQLite)のテーブル「t_nenpi」から以下の条件でレコード抽出
-            //				・条件：給油日が直近(一番最近)
+            //　→「前回給油時総走行距離取得メソッド」を実行
+            //      前回給油時総走行距離取得メソッド
+            //      引数１：なし
+            //      戻り値：前回給油時総走行距離(double)																															
+            //		・内蔵DB(SQLite)のテーブル「t_nenpi」から以下の条件でレコード抽出
+            //		・条件：給油日が直近(一番最近)
             return 12500.5;//TODO:スタブなので固定値
         }
 
@@ -231,37 +257,30 @@ namespace NenpiApp
         /// </summary>
         /// <param name="kyuyuzitMileage">給油時総走行距離</param>
         /// <param name="zenkaiMileage">前回給油時総走行距離</param>
-        /// <returns>なし</returns>
+        /// <returns>メッセージ</returns>
         private string CheckCurrentMileage(string kyuyuzitMileage, double zenkaiMileage)
         {
-
-            /// 1.給油時総走行距離の入力チェックを行う
-
-            //   1 - 1.未入力チェック
-            //	・未入力の場合：以下の処理を実行して処理終了
-            //		「区間距離」テキストボックスに空白を設定
-            //		「計算」ボタンをクリック不可状態にする
-
             //	・入力がある場合：1 - 2へ
-
             //   1 - 2.正の数値チェック
-            //	「給油時総走行距離」が正の数値以外の場合
-            //			※数値以外の文字、マイナスの数値をエラーにする
-            //               メッセージ：「給油時走行距離は正の数値で入力してください」																																
-            //							をダイアログに表示
+            //	「給油時総走行距離」がゼロ以下のの数値以外の場合
+            //　※数値以外の文字、マイナスの数値をエラーにする
+            //    メッセージ：「給油走行距離は０より大きい数値で入力してください」																																
+            //				　をダイアログに表示
+            double kyuyuzitMileagenumber;
+            bool canConvert = double.TryParse(kyuyuzitMileage, out kyuyuzitMileagenumber);
+            if (!canConvert || kyuyuzitMileagenumber <= 0)
+            {
+                return "給油走行距離は０より大きい数値で入力してください";
+            }
 
-            //   1 - 3.整合性チェック
-            //	「給油時総走行距離」＜「前回給油時総走行距離」の場合
-            //               メッセージ：「給油時総走行距離は前回の距離より大きな値で入力してください」																																
-            //							をダイアログに表示
-            //	・「給油時総走行距離入力チェックメソッド」を作成
-            //			→メッセージダイアログ表示処理は1か所記述するのみ
-            //               給油時総走行距離入力チェックメソッド
-
-            //                               引数１：給油時総走行距離(string)                                                                           nullが渡る場合もあり
-            //                              引数２：前回給油時総走行距離(double)
-
-            //                               戻り値：メッセージ(string)
+            ////   1 - 3.整合性チェック
+            ////　「給油時総走行距離」＜「前回給油時総走行距離」の場合
+            ////   メッセージ：「給油時総走行距離は前回の距離より大きな値で入力してください」																																
+            ////			　　をダイアログに表示
+            if (kyuyuzitMileagenumber < zenkaiMileage)
+            {
+                return "給油時総走行距離は前回の距離より大きな値で入力してください";
+            }
             return "";
         }
 
