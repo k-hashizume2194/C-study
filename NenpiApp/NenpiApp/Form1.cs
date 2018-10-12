@@ -67,20 +67,13 @@ namespace NenpiApp
                 return;
             } 
 
-          
-
-       
-            ///TODO:⇒入力チェックの結果、エラーが無ければ2-1へ
-
             ///2-1.燃費計算
             ///区間燃費 ＝ 区間距離 / 給油量
             double oilingdouble = double.Parse(oiling);
             double valThisMileage = double.Parse(mileageVal);
             double nenpi = Culcnenpi(oilingdouble, valThisMileage);
 
-            ///3.計算した区間燃費を区間燃費表示テキストボックスに表示
-
-            // 燃費計算結果をセット
+            // 3.燃費計算結果をテキストボックスにセット
             txtFuelConsumption.Text = nenpi.ToString();
 
             ///4.「クリア」「記録」「終了」ボタン以外の入力部品を変更不可状態にする。
@@ -129,7 +122,7 @@ namespace NenpiApp
             ///給油時総走行距離	「給油時総走行距離」の値
             ///区間走行距離 「区間走行距離」の値
             ///区間燃費 「区間燃費」の値
-            ///		
+            	
             ///・記録処理完了メッセージの表示
             ///メッセージ：「記録処理が完了しました」													
             ///をダイアログに表示して処理終了
@@ -154,7 +147,7 @@ namespace NenpiApp
         /// <param name="e"></param>
         private void txtCurrentMileage_Leave(object sender, EventArgs e)
         {                                                                  
-	　　　//入力チェックを実行																																	
+	　　　//給油時総走行距離入力チェックを実行																																	
             string kyuyuzitMileage = txtCurrentMileage.Text;
             double zenkaiMileage = double.Parse(txtPastMileage.Text);
             string messagekyuyuzi = CheckCurrentMileage(kyuyuzitMileage, zenkaiMileage);
@@ -168,6 +161,7 @@ namespace NenpiApp
             double kukankyori = KukanCul(kyuyuzidouble, zenkaiMileage);
             txtThisMileage.Text = kukankyori.ToString();
 
+            //2 - 2.計算ボタンをクリック可能にする
             btnCalculation.Enabled = true;
         }
 
@@ -184,7 +178,7 @@ namespace NenpiApp
             boxOilingQuantity.Text = "";
             txtCurrentMileage.Text = "";
 
-            //TODO：前回給油時総走行距離 DBに記録されている最後の給油時走行距離
+            //TODO：前回給油時総走行距離 DBに記録されている最後の給油時走行距離を表示させる
             txtCurrentMileage.Text = "";
             txtThisMileage.Text = "";
             txtFuelConsumption.Text = "";	
@@ -227,10 +221,9 @@ namespace NenpiApp
             ///引数１：給油量 (double)
             ///引数２：区間距離 (doule)
             ///戻り値：区間燃費 (double) ※30.5のように小数値で返す ※小数点第一位で四捨五入する
-
-            double aaa = valThisMileage / oilingdouble;
-            Console.WriteLine(aaa);
-            return Math.Round(aaa, 1, MidpointRounding.AwayFromZero);
+            double nenpiDouble = valThisMileage / oilingdouble;
+            Console.WriteLine(nenpiDouble);
+            return Math.Round(nenpiDouble, 1, MidpointRounding.AwayFromZero);
         }
 
         /// <summary>
@@ -280,10 +273,10 @@ namespace NenpiApp
         /// <returns>区間距離</returns>
         private double KukanCul(double kyuyuzitMileage, double zenkaiMileage)
         {
-            // 四捨五入する
-            double aaa = kyuyuzitMileage - zenkaiMileage;
-            Console.WriteLine(aaa);//TODO:名前変更
-            return Math.Round(aaa, 1, MidpointRounding.AwayFromZero);
+            // 区間距離を計算して小数点第二位四捨五入する
+            double kukanMileage = kyuyuzitMileage - zenkaiMileage;
+            Console.WriteLine(kukanMileage);
+            return Math.Round(kukanMileage, 1, MidpointRounding.AwayFromZero);
         }
 
         /// <summary>
@@ -296,13 +289,10 @@ namespace NenpiApp
             ///※給油時総走行距離のチェックがOKの場合のみ計算ボタンはクリックできる
             ///1-1.未入力チェック
             ///※空白、ゼロの場合にエラーとする
-            ///メッセージ：「給油量を入力してください」
-            ///をダイアログに表示して処理終了
             if (!string.IsNullOrWhiteSpace(oiling))
             {
                 //nullではなく、かつ空文字列でもなく、かつ空白文字列でもない
             }
-
             else 
             {
                 // null、もしくは空文字列、もしくは空白文字列
@@ -312,8 +302,7 @@ namespace NenpiApp
 
             //数値かどうかチェック
             ///1-2.正の数値チェック
-            ///「給油量」が0以下の数値以外の場合
-            ///※数値以外の文字、マイナスの数値をエラーにする
+            ///「給油量」が0以下の数値以外の場合エラーにする
             ///メッセージ：「給油量は正の数値で入力してください」
             ///をダイアログに表示して処理終了
             double oilingNumber;
@@ -323,7 +312,6 @@ namespace NenpiApp
             {
                 return "給油量は０より大きい数値で入力してください";
             }
-            
             return "";
         }
 
