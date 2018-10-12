@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SQLite;
 
 namespace NenpiApp
 {
@@ -122,7 +123,29 @@ namespace NenpiApp
             ///給油時総走行距離	「給油時総走行距離」の値
             ///区間走行距離 「区間走行距離」の値
             ///区間燃費 「区間燃費」の値
-            	
+
+            string db_file = "nenpi.db";
+
+
+            using (var nenpiData = new SQLiteConnection("Data Source=" + db_file))
+            {
+                nenpiData.Open();
+                using (SQLiteCommand command = nenpiData.CreateCommand())
+                {
+                    command.CommandText = "CREATE TABLE IF NOT EXISTS t_nenpi(id INTEGER  PRIMARY KEY AUTOINCREMENT, refuel_date TEXT, mileage REAL, trip_mileage REAL, fuel_cost REAL)";
+
+                    command.ExecuteNonQuery();
+
+                    
+                }
+                nenpiData.Close();
+            }
+
+
+
+
+
+
             ///・記録処理完了メッセージの表示
             ///メッセージ：「記録処理が完了しました」													
             ///をダイアログに表示して処理終了
