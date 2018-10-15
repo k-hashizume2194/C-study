@@ -99,6 +99,8 @@
             this.boxOilingQuantity.Size = new System.Drawing.Size(116, 22);
             this.boxOilingQuantity.TabIndex = 1;
             this.boxOilingQuantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.boxOilingQuantity.Click += new System.EventHandler(this.TextBox_Focus);
+            this.boxOilingQuantity.Enter += new System.EventHandler(this.TextBox_Focus);
             // 
             // label2
             // 
@@ -136,6 +138,8 @@
             this.txtCurrentMileage.Size = new System.Drawing.Size(116, 22);
             this.txtCurrentMileage.TabIndex = 2;
             this.txtCurrentMileage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtCurrentMileage.Click += new System.EventHandler(this.TextBox_Focus);
+            this.txtCurrentMileage.Enter += new System.EventHandler(this.TextBox_Focus);
             this.txtCurrentMileage.Leave += new System.EventHandler(this.txtCurrentMileage_Leave);
             // 
             // label4
