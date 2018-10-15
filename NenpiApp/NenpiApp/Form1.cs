@@ -59,11 +59,11 @@ namespace NenpiApp
 
             ///1.給油量の入力チェックを行う
             // 入力チェック結果を取得
-            // ⇒入力チェックの結果、エラーがあれば
-            //メッセージをダイアログに出し、給油量テキストボックスにフォーカスし、処理終了
             string message = CheckOilingQuantity(oiling);
             if (!string.IsNullOrWhiteSpace(message))
             {
+                // ⇒入力チェックの結果、エラーがあれば
+                //メッセージをダイアログに出し、給油量テキストボックスにフォーカスし、処理終了
                 MessageBox.Show(message);
                 this.ActiveControl = this.boxOilingQuantity;
                 return;
@@ -138,8 +138,8 @@ namespace NenpiApp
         /// <param name="e"></param>
         private void btnEnd_Click(object sender, EventArgs e)
         {
-         ///メインフォームを閉じる
-         this.Close();
+            //メインフォームを閉じる
+            this.Close();
         }
 
         /// <summary>
@@ -158,6 +158,7 @@ namespace NenpiApp
             if (!string.IsNullOrWhiteSpace(kyuyuzitMileage))
             {
                 //nullではなく、かつ空文字列でもなく、かつ空白文字列でもない
+                //	・入力がある場合：1 - 2へ
             }
             else
             {
@@ -167,8 +168,7 @@ namespace NenpiApp
                 btnCalculation.Enabled = false;
                 return;
             }
-
-            //０以上の数値、整合性チェック
+            // 0以上の数値、整合性チェック
             string messagekyuyuzi = CheckCurrentMileage(kyuyuzitMileage, zenkaiMileage);
 
             if (!string.IsNullOrWhiteSpace(messagekyuyuzi))
@@ -178,9 +178,9 @@ namespace NenpiApp
                 txtThisMileage.Text = "";
                 btnCalculation.Enabled = false;
                 this.ActiveControl = this.txtCurrentMileage;
+                txtCurrentMileage.Text = "";
                 // フォーカスイベントなのでメッセージボックスを最後に配置
                 MessageBox.Show(messagekyuyuzi);
-                txtCurrentMileage.Text = ""; 
                 return;    
             } 
 
@@ -228,7 +228,6 @@ namespace NenpiApp
             //計算ボタン:クリック不可状態
             dateTimePicker.Value = DateTime.Now;
             boxOilingQuantity.Text = "";
-            //TODO：前回給油時総走行距離 DBに記録されている最後の給油時走行距離を表示させる
             txtCurrentMileage.Text = "";
             txtThisMileage.Text = "";
             txtFuelConsumption.Text = "";	
@@ -285,23 +284,18 @@ namespace NenpiApp
         /// <returns>メッセージ</returns>
         private string CheckCurrentMileage(string kyuyuzitMileage, double zenkaiMileage)
         {
-            //	・入力がある場合：1 - 2へ
             //   1 - 2.正の数値チェック
             //	「給油時総走行距離」がゼロ以下のの数値以外の場合
             //　※数値以外の文字、マイナスの数値をエラーにする
-            //    メッセージ：「給油走行距離は０より大きい数値で入力してください」																																
-            //				　をダイアログに表示
             double kyuyuzitMileagenumber;
             bool canConvert = double.TryParse(kyuyuzitMileage, out kyuyuzitMileagenumber);
             if (!canConvert || kyuyuzitMileagenumber <= 0)
             {
-                return "給油走行距離は０より大きい数値で入力してください";
+                return "給油走行距離は0より大きい数値で入力してください";
             }
 
             ////   1 - 3.整合性チェック
             ////　「給油時総走行距離」＜「前回給油時総走行距離」の場合
-            ////   メッセージ：「給油時総走行距離は前回の距離より大きな値で入力してください」																																
-            ////			　　をダイアログに表示
             if (kyuyuzitMileagenumber < zenkaiMileage)
             {
                 return "給油時総走行距離は前回の距離より大きな値で入力してください";
@@ -317,7 +311,7 @@ namespace NenpiApp
         /// <returns>区間距離</returns>
         private double KukanCul(double kyuyuzitMileage, double zenkaiMileage)
         {
-            // 区間距離を計算して小数点第二位四捨五入する
+            // 区間距離を計算して小数点第二位で四捨五入する
             double kukanMileage = kyuyuzitMileage - zenkaiMileage;
             Console.WriteLine(kukanMileage);
             return Math.Round(kukanMileage, 1, MidpointRounding.AwayFromZero);
@@ -340,21 +334,18 @@ namespace NenpiApp
             else 
             {
                 // null、もしくは空文字列、もしくは空白文字列
-                // メッセージ：「給油量を入力してください」をダイアログに表示して処理終了
                 return "給油量を入力してください";
             }
 
             //数値かどうかチェック
             ///1-2.正の数値チェック
             ///「給油量」が0以下の数値以外の場合エラーにする
-            ///メッセージ：「給油量は正の数値で入力してください」
-            ///をダイアログに表示して処理終了
             double oilingNumber;
             bool canConvert = double.TryParse(oiling, out oilingNumber);
 
             if (!canConvert || oilingNumber <= 0)
             {
-                return "給油量は０より大きい数値で入力してください";
+                return "給油量は0より大きい数値で入力してください";
             }
             return "";
         }
