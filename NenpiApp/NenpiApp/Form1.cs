@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -67,7 +68,7 @@ namespace NenpiApp
                 MessageBox.Show(message);
                 this.ActiveControl = this.boxOilingQuantity;
                 return;
-            } 
+            }
 
             ///2-1.燃費計算
             ///区間燃費 ＝ 区間距離 / 給油量
@@ -113,22 +114,73 @@ namespace NenpiApp
             if (result == DialogResult.Yes)
             {
                 //TODO:「はい」をクリックした場合、3へ
-            } else
+            }
+            else
             {
                 return;
             }
 
             ///3.燃費データ保存
             ///・内蔵DB(SQLite)のテーブル「t_nenpi」に以下の内容のレコードを追加
+            //DBを作成します
+            string db_file = "nenpi.db";
+
+
             ///給油日付 「給油日入力部品」の入力値をYYYYMMDD形式に変換
+            string fuelDay = dateTimePicker.Value.ToString("yyyyMMdd");
             ///給油時総走行距離	「給油時総走行距離」の値
+            double d1 = double.Parse(txtCurrentMileage.Text);
             ///区間走行距離 「区間走行距離」の値
+            double d2 = double.Parse(txtThisMileage.Text);
             ///区間燃費 「区間燃費」の値
-            	
+            double d3 = double.Parse(txtFuelConsumption.Text);
+
+
+            //燃費記録用テーブルがなければ、燃費記録用テーブルを作成する
+            if (System.IO.File.Exists(db_file) == false)
+            {
+                using (SQLiteConnection nenpiData = new SQLiteConnection("Data Source=" + db_file))
+                {
+                    nenpiData.Open();
+                    using (SQLiteCommand command = nenpiData.CreateCommand())
+                    {
+                        command.CommandText = "CREATE TABLE t_nenpi(id INTEGER  PRIMARY KEY AUTOINCREMENT, refuel_date TEXT, mileage REAL, trip_mileage REAL, fuel_cost REAL)";
+                        command.ExecuteNonQuery();
+                    }
+
+                }
+            }
+
+            //データ保存
+            //DBファイルの燃費記録テーブルに対してINSERT文を実行してデータを登録
+            using (SQLiteConnection nenpiData = new SQLiteConnection("Data Source=" + db_file))
+            {
+                nenpiData.Open();
+
+                using (var transaction = nenpiData.BeginTransaction())
+                {
+                    using (SQLiteCommand command = nenpiData.CreateCommand())
+                    {
+                        command.CommandText = "insert into t_nenpi(refuel_date, mileage, trip_mileage, fuel_cost) values (@refuel_date, @mileage, @trip_mileage, @fuel_cost)";
+                        //command.Parameters.Add(new SQLiteParameter("@ID", 1));
+                        command.Parameters.Add(new SQLiteParameter("@refuel_date", fuelDay));
+                        command.Parameters.Add(new SQLiteParameter("@mileage", d1));
+                        command.Parameters.Add(new SQLiteParameter("@trip_mileage", d2));
+                        command.Parameters.Add(new SQLiteParameter("@fuel_cost", d3));
+
+                        command.ExecuteNonQuery();
+                    }
+                    transaction.Commit();
+                }
+            }
+
+
             ///・記録処理完了メッセージの表示
             ///メッセージ：「記録処理が完了しました」													
             ///をダイアログに表示して処理終了
             MessageBox.Show("記録処理が完了しました", "");
+            //画面をクリアする
+            Clear();
         }
 
         /// <summary>
@@ -181,8 +233,9 @@ namespace NenpiApp
                 txtCurrentMileage.Text = "";
                 // フォーカスイベントなのでメッセージボックスを最後に配置
                 MessageBox.Show(messagekyuyuzi);
-                return;    
-            } 
+
+                return;
+            }
 
             //区間距離を算出して「区間距離」テキストボックスに設定
             double kyuyuzidouble = double.Parse(kyuyuzitMileage);
@@ -230,13 +283,13 @@ namespace NenpiApp
             boxOilingQuantity.Text = "";
             txtCurrentMileage.Text = "";
             txtThisMileage.Text = "";
-            txtFuelConsumption.Text = "";	
+            txtFuelConsumption.Text = "";
             btnCalculation.Enabled = false;
             //計算時に変更不可にした給油日、給油量、給油時走行距離を入力可に戻す
             dateTimePicker.Enabled = true;
             boxOilingQuantity.Enabled = true;
             txtCurrentMileage.Enabled = true;
-           
+
             // TODO：まだスタブ状態
             //※「前回給油時総走行距離表示」テキストボックスには、DBに記録されている最後の給油時総走行距離を取得
             //前回給油時総走行距離取得メソッドを実行
@@ -331,7 +384,7 @@ namespace NenpiApp
             {
                 //nullではなく、かつ空文字列でもなく、かつ空白文字列でもない
             }
-            else 
+            else
             {
                 // null、もしくは空文字列、もしくは空白文字列
                 return "給油量を入力してください";
