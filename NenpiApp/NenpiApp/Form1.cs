@@ -295,8 +295,8 @@ namespace NenpiApp
             }
 
             ////   1 - 3.整合性チェック
-            ////　「給油時総走行距離」＜「前回給油時総走行距離」の場合
-            if (kyuyuzitMileagenumber < zenkaiMileage)
+            ////　「給油時総走行距離」＜=「前回給油時総走行距離」の場合
+            if (kyuyuzitMileagenumber <= zenkaiMileage)
             {
                 return "給油時総走行距離は前回の距離より大きな値で入力してください";
             }

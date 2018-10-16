@@ -125,11 +125,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(71, 231);
+            this.label3.Location = new System.Drawing.Point(56, 231);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(120, 15);
+            this.label3.Size = new System.Drawing.Size(135, 15);
             this.label3.TabIndex = 7;
-            this.label3.Text = "給油時走行距離：";
+            this.label3.Text = "給油時総走行距離：";
             // 
             // txtCurrentMileage
             // 
