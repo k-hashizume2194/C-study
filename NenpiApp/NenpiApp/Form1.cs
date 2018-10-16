@@ -128,6 +128,17 @@ namespace NenpiApp
             //DBを作成します
             string db_file = "nenpi.db";
 
+            //スタブ
+            //仮数値を入れる
+            txtCurrentMileage.Text = "1";
+            txtThisMileage.Text = "2";
+            txtFuelConsumption.Text = "3";
+
+            string fuelDay = dateTimePicker.Value.ToString("yyyyMMdd");
+            double d1 = double.Parse(txtCurrentMileage.Text);
+            double d2 = double.Parse(txtThisMileage.Text); 
+            double d3 = double.Parse(txtFuelConsumption.Text); 
+
             if(System.IO.File.Exists(db_file) == false)
             {
                 using (SQLiteConnection nenpiData = new SQLiteConnection("Data Source=" + db_file))
@@ -151,12 +162,12 @@ namespace NenpiApp
                 {
                     using (SQLiteCommand command = nenpiData.CreateCommand())
                     {
-                        command.CommandText = "insert into t_nenpi(id, refuel_date, mileage, trip_mileage, fuel_cost) values (@ID, @refuel_date, @mileage, @trip_mileage, @fuel_cost)";
-                        command.Parameters.Add(new SQLiteParameter("@ID", 1));
-                        command.Parameters.Add(new SQLiteParameter("@refuel_date", "test"));
-                        command.Parameters.Add(new SQLiteParameter("@mileage", 0));
-                        command.Parameters.Add(new SQLiteParameter("@trip_mileage", 0));
-                        command.Parameters.Add(new SQLiteParameter("@fuel_cost", 0));
+                        command.CommandText = "insert into t_nenpi(refuel_date, mileage, trip_mileage, fuel_cost) values (@refuel_date, @mileage, @trip_mileage, @fuel_cost)";
+                        //command.Parameters.Add(new SQLiteParameter("@ID", 1));
+                        command.Parameters.Add(new SQLiteParameter("@refuel_date", fuelDay));
+                        command.Parameters.Add(new SQLiteParameter("@mileage", d1));
+                        command.Parameters.Add(new SQLiteParameter("@trip_mileage", d2));
+                        command.Parameters.Add(new SQLiteParameter("@fuel_cost", d3));
 
                         //dateTimePicker.Value
 
@@ -168,8 +179,9 @@ namespace NenpiApp
                     transaction.Commit();
                 }
             }
-                
-                
+
+
+            
 
 
 
@@ -178,11 +190,18 @@ namespace NenpiApp
 
 
 
-                ///・記録処理完了メッセージの表示
-                ///メッセージ：「記録処理が完了しました」													
-                ///をダイアログに表示して処理終了
-                MessageBox.Show("記録処理が完了しました", "");
+            ///・記録処理完了メッセージの表示
+            ///メッセージ：「記録処理が完了しました」													
+            ///をダイアログに表示して処理終了
+            MessageBox.Show("記録処理が完了しました", "");
         }
+
+        
+        
+
+
+
+
 
         /// <summary>
         /// 終了ボタンイベント
