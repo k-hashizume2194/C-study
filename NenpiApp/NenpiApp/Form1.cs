@@ -123,34 +123,65 @@ namespace NenpiApp
             ///給油時総走行距離	「給油時総走行距離」の値
             ///区間走行距離 「区間走行距離」の値
             ///区間燃費 「区間燃費」の値
+            
 
+            //DBを作成します
             string db_file = "nenpi.db";
 
-
-            using (var nenpiData = new SQLiteConnection("Data Source=" + db_file))
+            if(System.IO.File.Exists(db_file) == false)
             {
-                // TODO :テーブルがなかった場合作成の処理まで
-                nenpiData.Open();
-                using (SQLiteCommand command = nenpiData.CreateCommand())
+                using (SQLiteConnection nenpiData = new SQLiteConnection("Data Source=" + db_file))
                 {
-                    command.CommandText = "CREATE TABLE IF NOT EXISTS t_nenpi(id INTEGER  PRIMARY KEY AUTOINCREMENT, refuel_date TEXT, mileage REAL, trip_mileage REAL, fuel_cost REAL)";
-
-                    command.ExecuteNonQuery();
-
+                    nenpiData.Open();
+                    using (SQLiteCommand command = nenpiData.CreateCommand())
+                    {
+                        command.CommandText = "CREATE TABLE t_nenpi(id INTEGER  PRIMARY KEY AUTOINCREMENT, refuel_date TEXT, mileage REAL, trip_mileage REAL, fuel_cost REAL)";
+                        command.ExecuteNonQuery();
+                    }
                     
                 }
-                nenpiData.Close();
             }
 
+            //データ保存
+            using (SQLiteConnection nenpiData = new SQLiteConnection("Data Source=" + db_file))
+            {
+                nenpiData.Open();
+
+                using (var transaction = nenpiData.BeginTransaction())
+                {
+                    using (SQLiteCommand command = nenpiData.CreateCommand())
+                    {
+                        command.CommandText = "insert into t_nenpi(id, refuel_date, mileage, trip_mileage, fuel_cost) values (@ID, @refuel_date, @mileage, @trip_mileage, @fuel_cost)";
+                        command.Parameters.Add(new SQLiteParameter("@ID", 1));
+                        command.Parameters.Add(new SQLiteParameter("@refuel_date", "test"));
+                        command.Parameters.Add(new SQLiteParameter("@mileage", 0));
+                        command.Parameters.Add(new SQLiteParameter("@trip_mileage", 0));
+                        command.Parameters.Add(new SQLiteParameter("@fuel_cost", 0));
+
+                        //dateTimePicker.Value
+
+                        //cmd.CommandText = "insert into d_test(id, data) values (@ID, @DATA)";
+                        //cmd.Parameters.Add(new SQLiteParameter("@ID", 1));
+                        //cmd.Parameters.Add(new SQLiteParameter("@DATA", "test"));
+                        command.ExecuteNonQuery();
+                    }
+                    transaction.Commit();
+                }
+            }
+                
+                
 
 
 
 
 
-            ///・記録処理完了メッセージの表示
-            ///メッセージ：「記録処理が完了しました」													
-            ///をダイアログに表示して処理終了
-            MessageBox.Show("記録処理が完了しました", "");
+
+
+
+                ///・記録処理完了メッセージの表示
+                ///メッセージ：「記録処理が完了しました」													
+                ///をダイアログに表示して処理終了
+                MessageBox.Show("記録処理が完了しました", "");
         }
 
         /// <summary>
