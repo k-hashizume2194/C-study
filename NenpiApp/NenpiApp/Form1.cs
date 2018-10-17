@@ -307,9 +307,39 @@ namespace NenpiApp
             //    前回給油時総走行距離取得メソッド
             //    引数１：なし
             //    戻り値：前回給油時総走行距離(double)																															
+            
             //  ・内蔵DB(SQLite)のテーブル「t_nenpi」から以下の条件でレコード抽出
             //	・条件：給油日が直近(一番最近)
-            return 12500.5;//TODO:スタブなので固定値
+            string db_file = "nenpi.db";
+
+            using (SQLiteConnection nenpiData = new SQLiteConnection("Data Source=" + db_file))
+            {
+                nenpiData.Open();
+
+                // 燃費記録テーブル取得
+                using (SQLiteCommand command = nenpiData.CreateCommand())
+                {
+                    // 内蔵DB(SQLite)のテーブル「t_nenpi」から以下の条件でレコード抽出
+                    //	・条件：給油日(refuel_date)が直近(一番最近)
+                    command.CommandText = "SELECT * FROM t_nenpi  order by refuel_date desc";
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            //給油時走行距離のデータをDBから呼び出す
+                            //呼び出したデータを前回給油時走行距離テキストに代入する
+                            txtPastMileage.Text = reader["mileage"].ToString();
+                        }
+                    }
+                }  
+                nenpiData.Close();
+
+            }
+            //前回給油時走行距離テキストをdouble型に変換
+            double latestMileage = double.Parse(txtPastMileage.Text);
+
+            //呼び出し元に戻り値として返す
+            return latestMileage;
         }
 
         /// <summary>
