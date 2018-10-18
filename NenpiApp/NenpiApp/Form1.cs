@@ -331,7 +331,7 @@ namespace NenpiApp
                             txtPastMileage.Text = reader["mileage"].ToString();
                         }
                     }
-                }  
+                }
                 nenpiData.Close();
 
             }
