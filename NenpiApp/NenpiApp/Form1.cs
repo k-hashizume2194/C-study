@@ -228,8 +228,8 @@ namespace NenpiApp
                 //エラーだと給油時走行距離にフォーカスを設定して空白セット、
                 //区間距離空白と計算ボタン不可設定してメッセージ表示
                 txtThisMileage.Text = "";
-                btnCalculation.Enabled = false;
                 this.ActiveControl = this.txtCurrentMileage;
+                btnCalculation.Enabled = false;
                 txtCurrentMileage.Text = "";
                 // フォーカスイベントなのでメッセージボックスを最後に配置
                 MessageBox.Show(messagekyuyuzi);
