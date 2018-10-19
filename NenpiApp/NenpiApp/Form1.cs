@@ -79,7 +79,7 @@ namespace NenpiApp
             double nenpi = Culcnenpi(oilingdouble, valThisMileage);
 
             // 3.燃費計算結果をテキストボックスにセット
-            txtFuelConsumption.Text = nenpi.ToString();
+            txtFuelConsumption.Text = nenpi.ToString("#0.0");
 
             ///4.「クリア」「記録」「終了」ボタン以外の入力部品を変更不可状態にする。
             dateTimePicker.Enabled = false;
